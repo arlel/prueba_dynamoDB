@@ -4,9 +4,9 @@ from ..domain.user_entity import User
 
 
 class UserDBMockup:
-    temp = User(1,"Juan", "Juarez", "juan@mail.com", "Hudston")
+    temp = User(1, "Juan", "Juarez", "juan@mail.com", "Hudston")
     user1 = temp.__dict__
-    temp = User(2,"John", "Smith", "John@mail.com", "Texas")
+    temp = User(2, "John", "Smith", "John@mail.com", "Texas")
     user2 = temp.__dict__
 
     def scan(self):

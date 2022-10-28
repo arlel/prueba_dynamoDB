@@ -2,10 +2,8 @@ from chalice import Chalice
 from chalicelib.user_module.framework.user_endpoint import user_module_blueprint
 
 app = Chalice(app_name='pycharmPrueba1')
-# Registro de blueprint de otro modulo:
-app.register_blueprint(user_module_blueprint, url_prefix="/api/users")
-
-
+# Register another module:
+app.register_blueprint(user_module_blueprint, url_prefix="/users")
 
 
 @app.route('/')
