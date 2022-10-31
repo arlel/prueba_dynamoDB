@@ -1,4 +1,4 @@
-from chalice import NotFoundError
+from chalice import NotFoundError, BadRequestError
 
 from ..domain.user_entity import User, UserSchema
 from ..framework.user_repository import UserRepository
@@ -13,15 +13,23 @@ class UserBL:
         self.userSchema = userSchema
 
     def create(self, data: dict):
-        try:
+        if "_id" in data.keys():
             data.pop('_id')
-        finally:
+        user = self.userSchema.load(data)
+        return self.userSchema.dump(user)
+
+    def update(self, data: dict, _id: int):
+        if "_id" in data.keys():
+            data.pop('_id')
+        if _id == 1 or _id == 2:
             user = self.userSchema.load(data)
-            print(user)
+            user._id = _id
             return self.userSchema.dump(user)
+        raise NotFoundError
 
     def get_users(self) -> list:
-        return self.repository.get_all_users()
+        users: list = self.userSchema.load(self.repository.get_all_users(), many=True)
+        return self.userSchema.dump(users, many=True)
 
     def get_user(self, key: int):
         if key < 1 or key > 2:
@@ -34,3 +42,7 @@ class UserBL:
         # print(user)
         # Convierto el usuario a dict
         return self.userSchema.dump(user)
+
+    def delete(self, key: int):
+        # self.repository.remove(key)
+        return self.get_user(key)

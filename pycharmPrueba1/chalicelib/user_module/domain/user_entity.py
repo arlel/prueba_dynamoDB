@@ -10,10 +10,10 @@ class User:
     surname: str
     mail: str
     city: str
-    bDate: date
+    bDate: str
 
-    def __init__(self, bdate: date, name: str, surname: str, mail: str, city: str, _id: int =None):
-        self.bDate=bdate
+    def __init__(self, bDate: str, name: str, surname: str, mail: str, city: str, _id: int = None):
+        self.bDate = bDate
         # TODO: UUID
         self._id = _id or int(random.randint(1, 10))
         self.name = name
@@ -35,10 +35,10 @@ class UserSchema(Schema):
         return User(**data)
 
     @validates("bDate")
-    def validate_bDate(self,value: date):
-        if value.year < date.year(1900):
+    def validate_bdate(self, value: date):
+        if value.year < 1990:
             raise ValidationError("year too lower to be real")
-        if value.year > date.year((date.today()).year - date.year(16)):
+        if value.year > (date.today().year - 16):
             raise ValidationError("Too young")
 
 

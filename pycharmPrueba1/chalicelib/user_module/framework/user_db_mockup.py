@@ -1,12 +1,13 @@
+import datetime
 import json
 
-from ..domain.user_entity import User
+from ..domain.user_entity import User, UserSchema
 
 
 class UserDBMockup:
-    temp = User(1, "Juan", "Juarez", "juan@mail.com", "Hudston")
+    temp = User("1999-1-1", "Juan", "Juarez", "juan@mail.com", "Hudston", 1)
     user1 = temp.__dict__
-    temp = User(2, "John", "Smith", "John@mail.com", "Texas")
+    temp = User("2000-2-22", "John", "Smith", "John@mail.com", "Texas", 2)
     user2 = temp.__dict__
 
     def scan(self):
