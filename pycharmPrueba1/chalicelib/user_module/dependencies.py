@@ -4,6 +4,6 @@ from .framework.user_repository import UserRepository
 
 user_schema: UserSchema = UserSchema()
 user_repository: UserRepository = UserRepository()
-user_bl: UserBL = UserBL(user_repository,user_schema)
+user_bl: UserBL = UserBL(user_repository, user_schema)
 
 

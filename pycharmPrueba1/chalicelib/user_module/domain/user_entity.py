@@ -1,21 +1,19 @@
+import uuid
 from datetime import date
-
 from marshmallow import Schema, fields, post_load, validates, ValidationError
-import random
 
 
 class User:
-    _id: int
+    id: int
     name: str
     surname: str
     mail: str
     city: str
     bDate: str
 
-    def __init__(self, bDate: str, name: str, surname: str, mail: str, city: str, _id: int = None):
+    def __init__(self, bDate: str, name: str, surname: str, mail: str, city: str, id: str = None):
         self.bDate = bDate
-        # TODO: UUID
-        self._id = _id or int(random.randint(1, 10))
+        self.id = id or uuid.uuid4().hex.upper().replace("-", "")
         self.name = name
         self.surname = surname
         self.mail = mail
@@ -23,7 +21,7 @@ class User:
 
 
 class UserSchema(Schema):
-    _id = fields.Integer()
+    id = fields.Str()
     name = fields.Str()
     surname = fields.Str()
     mail = fields.Email()

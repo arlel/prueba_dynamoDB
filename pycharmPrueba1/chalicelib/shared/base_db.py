@@ -1,3 +1,6 @@
+import boto3
+
+
 class BaseDbMeta(type):
     _instances = {}
 
@@ -15,13 +18,19 @@ class BaseDbMeta(type):
 class BaseDb(metaclass=BaseDbMeta):
 
     def __init__(self) -> None:
-        # Aqui iria la config de boto3
-        # dynamodb = boto3.resource("dynamodb")
-        pass
+        self.dynamoDB_cli = boto3.client("dynamodb", endpoint_url="http://localhost:8000")
+        self.dynamoDB_res = boto3.resource("dynamodb", endpoint_url="http://localhost:8000")
+        # response = dynamoDB.list_tables()
+        # print(response)
 
     def get_table(self, tableName: str):
-        # return self.dynamodb.Table("{tablename}")
-        pass
+        return self.dynamoDB_res.Table(tableName)
+
+
+
+
+
+
 
 
 

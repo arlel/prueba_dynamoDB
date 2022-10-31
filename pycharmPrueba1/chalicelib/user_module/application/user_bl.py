@@ -13,27 +13,26 @@ class UserBL:
         self.userSchema = userSchema
 
     def create(self, data: dict):
-        if "_id" in data.keys():
-            data.pop('_id')
+        if "id" in data.keys():
+            data.pop('id')
         user = self.userSchema.load(data)
-        return self.userSchema.dump(user)
+        # here we can put some validations
+        self.repository.put_user(self.userSchema.dump(user))
+        return self.userSchema.dumps(user)
 
-    def update(self, data: dict, _id: int):
-        if "_id" in data.keys():
-            data.pop('_id')
-        if _id == 1 or _id == 2:
-            user = self.userSchema.load(data)
-            user._id = _id
-            return self.userSchema.dump(user)
-        raise NotFoundError
+    def update(self, data: dict, key: str):
+        user = self.userSchema.load(data)
+        user.id = key
+        user_dict = self.userSchema.dump(user)
+        user_dict.pop("id")
+        self.repository.update(key, user_dict)
+        return self.userSchema.dumps(user)
 
     def get_users(self) -> list:
         users: list = self.userSchema.load(self.repository.get_all_users(), many=True)
-        return self.userSchema.dump(users, many=True)
+        return self.userSchema.dumps(users, many=True)
 
-    def get_user(self, key: int):
-        if key < 1 or key > 2:
-            raise NotFoundError(f"not founded user with id {key}")
+    def get_user(self, key: str):
         # Cargar de bd, llega un documento que representa al usuario
         dict_user = self.repository.get_user(key)
         # print(dict_user)
@@ -41,8 +40,8 @@ class UserBL:
         user = self.userSchema.load(dict_user)
         # print(user)
         # Convierto el usuario a dict
-        return self.userSchema.dump(user)
+        return self.userSchema.dumps(user)
 
-    def delete(self, key: int):
-        # self.repository.remove(key)
-        return self.get_user(key)
+    def delete(self, key: str):
+        deleted_user = self.userSchema.load(self.repository.delete(key))
+        return self.userSchema.dumps(deleted_user)

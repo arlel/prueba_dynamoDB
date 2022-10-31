@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: "2022-10-28"
+AWSTemplateFormatVersion: "2022-10-31"
 Resources:
   chaliceDemo:
     Type: AWS::DynamoDB::Table
@@ -6,10 +6,10 @@ Resources:
       TableName: User
       AttributeDefinitions:
         - AttributeName: "id"
-          AttributeType: "N"
+          AttributeType: "S"
       KeySchema:
         - AttributeName: "id"
-          KeyType: "N"
+          KeyType: "S"
 
       ProvisionedThroughput:
         ReadCapacityUnits: "2"
